@@ -21,6 +21,9 @@ const theme = createTheme({
   },
 });
 
+// API Key
+const apiKey = process.env.REACT_APP_API_KEY;
+
 function App() {
   const [temp, setTemp] = useState(0);
 
@@ -30,7 +33,7 @@ function App() {
     // Fetch data from the API
     axios
       .get(
-        "https://api.openweathermap.org/data/2.5/weather?lat=32.794044&lon=34.989571&appid=989248b80bf2586a88c40cacfa89a394"
+        `https://api.openweathermap.org/data/2.5/weather?lat=32.794044&lon=34.989571&appid=${apiKey}`
       )
       .then(function (response) {
         // handle success
