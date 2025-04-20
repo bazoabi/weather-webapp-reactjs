@@ -1,0 +1,26 @@
+{
+    "clear": "בהיר",
+    "Partly Cloudy": "מעונן חלקית",
+    "few clouds": "מעט עננים",
+    "clear sky": "שמים בהירים",
+    "cloudy": "מעונן",
+    "overcast": "מעונן לגמרי",
+    "rain": "גשם",
+    "thunderstorm": "סופת רעמים",
+    "snow": "שלג",
+    "fog": "ערפל",
+    "mist": "ערפל קל",
+    "haze": "ערפל כבד",
+    "sleet": "ברד",
+    "drizzle": "טפטוף",
+    "windy": "רוח חזקה",
+
+    "Haifa": "חיפה",
+    "Tel Aviv": "תל אביב",
+    "Jerusalem": "ירושלים",
+    "New York": "ניו יורק",
+    "Los Angeles": "לוס אנג'לס",
+
+    "From": "מ",
+    "To": "עד"
+}
