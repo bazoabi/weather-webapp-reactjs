@@ -7,6 +7,12 @@ import Box from "@mui/material/Box";
 import CloudIcon from "@mui/icons-material/Cloud";
 import Button from "@mui/material/Button";
 
+// React
+import { useEffect, useState } from "react";
+
+// External Libraries
+import axios from "axios";
+
 //Create theme for Rubik font
 
 const theme = createTheme({
@@ -16,6 +22,33 @@ const theme = createTheme({
 });
 
 function App() {
+  const [temp, setTemp] = useState(0);
+
+  useEffect(() => {
+    console.log("inside useEffect");
+
+    // Fetch data from the API
+    axios
+      .get(
+        "https://api.openweathermap.org/data/2.5/weather?lat=32.794044&lon=34.989571&appid=989248b80bf2586a88c40cacfa89a394"
+      )
+      .then(function (response) {
+        // handle success
+        console.log("success: ", response);
+
+        // log temperature in Celsius
+        const responseTemp = response.data.main.temp - 273.15;
+        console.log("Temperature in Celsius: ", responseTemp.toFixed(2));
+
+        // TODO: Save data to state
+        setTemp(Math.round(responseTemp)); // Set temperature in state
+      })
+      .catch(function (error) {
+        // handle error
+        console.log("error: ", error);
+      });
+  }, []);
+
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
@@ -86,7 +119,7 @@ function App() {
                       fontWeight={100}
                       style={{ marginRight: "2vh", textAlign: "right" }}
                     >
-                      25
+                      {temp}°
                     </Typography>
                     {/* TODO: Temp Image */}
                     <div></div>
