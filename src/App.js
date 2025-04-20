@@ -31,7 +31,7 @@ const theme = createTheme({
 const apiKey = process.env.REACT_APP_API_KEY;
 
 // API Call Language
-const lang = "he"; // Hebrew
+const lang = "en"; // Default language for API call
 
 // Cancel Axios
 let cancelAxios = null;
@@ -51,12 +51,33 @@ function App() {
     icon: "",
   });
 
+  const [locale, setLocale] = useState("en"); // Default locale is English
+
+  // Event Handler for Language Change
+  const handleLanguageChangeClicked = () => {
+    if (locale === "he") {
+      setLocale("en");
+      // Change the language to English
+      i18n.changeLanguage("en");
+      // Update the date and time format to English locale
+      moment.locale("en-gb");
+      setDateAndTime(moment().format("LLLL"));
+    } else {
+      setLocale("he");
+      // Change the language to English
+      i18n.changeLanguage("he");
+      // Update the date and time format to English locale
+      moment.locale("he");
+      setDateAndTime(moment().format("LLLL"));
+    }
+  };
+
   useEffect(() => {
     // Set date and time based on the current locale
     setDateAndTime(moment().format("LLLL"));
 
     // Set the language for i18next
-    i18n.changeLanguage("he");
+    i18n.changeLanguage(locale);
 
     // Fetch data from the API
     axios
@@ -130,7 +151,7 @@ function App() {
               {/* City & Time */}
               <div>
                 <div
-                  dir="rtl"
+                  dir={locale === "he" ? "rtl" : "ltr"}
                   style={{
                     display: "flex",
                     alignItems: "end",
@@ -139,7 +160,7 @@ function App() {
                   }}
                 >
                   <Typography variant="h1" style={{ marginRight: "2vh" }}>
-                    חיפה
+                    {t("Haifa")}
                   </Typography>
 
                   <Typography variant="h6" style={{ marginRight: "3vh" }}>
@@ -152,6 +173,7 @@ function App() {
               <hr />
 
               <div
+                dir={locale === "he" ? "rtl" : "ltr"}
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -159,7 +181,7 @@ function App() {
                   padding: "2vh",
                   paddingLeft: "4vh",
                   paddingRight: "4vh",
-                  direction: "rtl",
+                  // direction: "rtl",
                 }}
               >
                 {/* Degree & Description */}
@@ -187,7 +209,7 @@ function App() {
                       fontWeight={100}
                       style={{ marginRight: "2vh", textAlign: "right" }}
                     >
-                      {temp.description}
+                      {t(temp.description)}
                     </Typography>
                   </div>
                   {/* Min & Max temps */}
@@ -199,14 +221,14 @@ function App() {
                     }}
                   >
                     <Typography variant="h6" fontWeight={100}>
-                      מ: {temp.min}°
+                      {t("From")}: {temp.min}°
                     </Typography>
                     <Typography
                       variant="h6"
                       fontWeight={100}
                       style={{ marginRight: "1vh" }}
                     >
-                      עד: {temp.max}°
+                      {t("To")}: {temp.max}°
                     </Typography>
                   </div>
                   {/* ==== Min & Max temps ==== */}
@@ -225,8 +247,16 @@ function App() {
             </div>
             {/* ==== Card ==== */}
             {/* Translation Container */}
-            <div style={{ width: "100%", textAlign: "left", marginTop: "2vh" }}>
-              <Button variant="text">אנגלית</Button>
+            <div
+              style={{
+                width: "100%",
+                textAlign: locale === "he" ? "left" : "right",
+                marginTop: "2vh",
+              }}
+            >
+              <Button variant="text" onClick={handleLanguageChangeClicked}>
+                {locale === "he" ? "אנגלית" : "עברית"}
+              </Button>
             </div>
             {/* ==== Translation Container ==== */}
           </div>
