@@ -16,6 +16,9 @@ import moment from "moment";
 import "moment/locale/he"; // Hebrew locale
 import "moment/locale/en-gb"; // English locale
 
+// i18next for translations
+import { useTranslation } from "react-i18next";
+
 //Create theme for Rubik font
 
 const theme = createTheme({
@@ -37,6 +40,8 @@ let cancelAxios = null;
 moment.locale(lang);
 
 function App() {
+  const { t, i18n } = useTranslation();
+
   const [dateAndTime, setDateAndTime] = useState("");
   const [temp, setTemp] = useState({
     number: 0,
@@ -49,6 +54,9 @@ function App() {
   useEffect(() => {
     // Set date and time based on the current locale
     setDateAndTime(moment().format("LLLL"));
+
+    // Set the language for i18next
+    i18n.changeLanguage("he");
 
     // Fetch data from the API
     axios
