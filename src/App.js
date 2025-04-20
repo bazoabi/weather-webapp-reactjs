@@ -12,6 +12,9 @@ import { useEffect, useState } from "react";
 
 // External Libraries
 import axios from "axios";
+import moment from "moment";
+import "moment/locale/he"; // Hebrew locale
+import "moment/locale/en-gb"; // English locale
 
 //Create theme for Rubik font
 
@@ -30,7 +33,11 @@ const lang = "he"; // Hebrew
 // Cancel Axios
 let cancelAxios = null;
 
+// Setting Moment Locale to Hebrew
+moment.locale(lang);
+
 function App() {
+  const [dateAndTime, setDateAndTime] = useState("");
   const [temp, setTemp] = useState({
     number: 0,
     description: "",
@@ -40,7 +47,8 @@ function App() {
   });
 
   useEffect(() => {
-    console.log("inside useEffect");
+    // Set date and time based on the current locale
+    setDateAndTime(moment().format("LLLL"));
 
     // Fetch data from the API
     axios
@@ -126,8 +134,8 @@ function App() {
                     חיפה
                   </Typography>
 
-                  <Typography variant="h5" style={{ marginRight: "3vh" }}>
-                    יום שני 10.10.2023
+                  <Typography variant="h6" style={{ marginRight: "3vh" }}>
+                    {dateAndTime}
                   </Typography>
                 </div>
               </div>
@@ -159,7 +167,7 @@ function App() {
                     </Typography>
                     {/* TODO: Temp Image */}
                     <div>
-                      <img src={temp.icon} alt="" />
+                      <img src={temp.icon === "" ? null : temp.icon} alt="" />
                     </div>
                     {/* ==== Temp Image ==== */}
                   </div>
