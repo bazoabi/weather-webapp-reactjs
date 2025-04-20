@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/weather-webapp-reactjs/static/css/main.d6587abe.css",
-    "main.js": "/weather-webapp-reactjs/static/js/main.0a800c06.js",
+    "main.js": "/weather-webapp-reactjs/static/js/main.3059195e.js",
     "static/js/453.f43e1e64.chunk.js": "/weather-webapp-reactjs/static/js/453.f43e1e64.chunk.js",
     "static/js/38.7a6f6008.chunk.js": "/weather-webapp-reactjs/static/js/38.7a6f6008.chunk.js",
     "static/media/Rubik-SemiBold.ttf": "/weather-webapp-reactjs/static/media/Rubik-SemiBold.869208702057daef053d.ttf",
@@ -11,12 +11,12 @@
     "static/media/logo.svg": "/weather-webapp-reactjs/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/weather-webapp-reactjs/index.html",
     "main.d6587abe.css.map": "/weather-webapp-reactjs/static/css/main.d6587abe.css.map",
-    "main.0a800c06.js.map": "/weather-webapp-reactjs/static/js/main.0a800c06.js.map",
+    "main.3059195e.js.map": "/weather-webapp-reactjs/static/js/main.3059195e.js.map",
     "453.f43e1e64.chunk.js.map": "/weather-webapp-reactjs/static/js/453.f43e1e64.chunk.js.map",
     "38.7a6f6008.chunk.js.map": "/weather-webapp-reactjs/static/js/38.7a6f6008.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.d6587abe.css",
-    "static/js/main.0a800c06.js"
+    "static/js/main.3059195e.js"
   ]
 }
