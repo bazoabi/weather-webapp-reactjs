@@ -24,8 +24,20 @@ const theme = createTheme({
 // API Key
 const apiKey = process.env.REACT_APP_API_KEY;
 
+// API Call Language
+const lang = "he"; // Hebrew
+
+// Cancel Axios
+let cancelAxios = null;
+
 function App() {
-  const [temp, setTemp] = useState(0);
+  const [temp, setTemp] = useState({
+    number: 0,
+    description: "",
+    min: 0,
+    max: 0,
+    icon: "",
+  });
 
   useEffect(() => {
     console.log("inside useEffect");
@@ -33,23 +45,44 @@ function App() {
     // Fetch data from the API
     axios
       .get(
-        `https://api.openweathermap.org/data/2.5/weather?lat=32.794044&lon=34.989571&appid=${apiKey}`
+        `https://api.openweathermap.org/data/2.5/weather?lat=32.794044&lon=34.989571&lang=${lang}&appid=${apiKey}`,
+        {
+          cancelToken: new axios.CancelToken(function (cancel) {
+            // An executor function receives a cancel function as a parameter
+            cancelAxios = cancel; // Assign the cancel function to the variable
+          }),
+        }
       )
       .then(function (response) {
         // handle success
         console.log("success: ", response);
 
-        // log temperature in Celsius
+        // Extract temperature data from the response and update state
         const responseTemp = response.data.main.temp - 273.15;
-        console.log("Temperature in Celsius: ", responseTemp.toFixed(2));
-
-        // TODO: Save data to state
-        setTemp(Math.round(responseTemp)); // Set temperature in state
+        const responseDescription = response.data.weather[0].description;
+        const responseMin = response.data.main.temp_min - 273.15;
+        const responseMax = response.data.main.temp_max - 273.15;
+        const responseIcon = response.data.weather[0].icon;
+        setTemp({
+          number: Math.round(responseTemp),
+          description: responseDescription,
+          min: Math.round(responseMin),
+          max: Math.round(responseMax),
+          icon: `https://openweathermap.org/img/wn/${responseIcon}@2x.png`,
+        });
+        console.log("temp: ", temp);
       })
       .catch(function (error) {
         // handle error
         console.log("error: ", error);
       });
+
+    // Cleanup function to cancel the request if the component unmounts
+    return () => {
+      if (cancelAxios) {
+        cancelAxios("Request canceled due to component unmounting.");
+      }
+    };
   }, []);
 
   return (
@@ -116,16 +149,18 @@ function App() {
                 {/* Degree & Description */}
                 <div style={{ marginLeft: "4vh" }}>
                   {/* Degree */}
-                  <div>
+                  <div style={{ display: "flex", alignItems: "center" }}>
                     <Typography
                       variant="h1"
                       fontWeight={100}
                       style={{ marginRight: "2vh", textAlign: "right" }}
                     >
-                      {temp}°
+                      {temp.number}°
                     </Typography>
                     {/* TODO: Temp Image */}
-                    <div></div>
+                    <div>
+                      <img src={temp.icon} alt="" />
+                    </div>
                     {/* ==== Temp Image ==== */}
                   </div>
                   {/* ==== Degree ==== */}
@@ -136,7 +171,7 @@ function App() {
                       fontWeight={100}
                       style={{ marginRight: "2vh", textAlign: "right" }}
                     >
-                      מעונן חלקית
+                      {temp.description}
                     </Typography>
                   </div>
                   {/* Min & Max temps */}
@@ -148,14 +183,14 @@ function App() {
                     }}
                   >
                     <Typography variant="h6" fontWeight={100}>
-                      מ: 20°
+                      מ: {temp.min}°
                     </Typography>
                     <Typography
                       variant="h6"
                       fontWeight={100}
                       style={{ marginRight: "1vh" }}
                     >
-                      עד: 30°
+                      עד: {temp.max}°
                     </Typography>
                   </div>
                   {/* ==== Min & Max temps ==== */}
